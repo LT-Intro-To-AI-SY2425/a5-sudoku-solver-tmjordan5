@@ -173,6 +173,10 @@ def BFS(state: Board) -> Board:
 
 
 if __name__ == "__main__":
+    
+    b=Board()
+    b.print_pretty
+    
     # uncomment the below lines once you've implemented the board class
    
     # # CODE BELOW HERE RUNS YOUR BFS/DFS
