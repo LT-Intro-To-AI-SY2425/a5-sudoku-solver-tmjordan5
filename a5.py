@@ -57,6 +57,7 @@ class Board:
     def __str__(self) -> str:
         """String representation of the board"""
         row_str = ""
+        row_num = 0
         for r in self.rows:
             row_str += f"{r}\n"
 
@@ -139,7 +140,9 @@ class Board:
             column - index of the column to assign
             assignment - value to place at given row, column coordinate
         """
-        pass
+        self.rows[row][column]=assignment
+        for i in range(self.size):
+            remove_if_exists(self.rows[row[i]],assignment)
 
 
 def DFS(state: Board) -> Board:
@@ -176,7 +179,9 @@ if __name__ == "__main__":
     
     b=Board()
     b.print_pretty
-    
+    b.update(0,0,1)
+    b.print_pretty
+
     # uncomment the below lines once you've implemented the board class
    
     # # CODE BELOW HERE RUNS YOUR BFS/DFS
