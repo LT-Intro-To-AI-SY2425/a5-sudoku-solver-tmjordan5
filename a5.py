@@ -59,7 +59,7 @@ class Board:
         row_str = ""
         row_num = 0
         for r in self.rows:
-            row_str += f"Row {row_num}: {r}\n"
+            row_str += f"row {row_num}: {r}\n"
             row_num += 1
 
         return f"num_nums_placed: {self.num_nums_placed}\nboard (rows): \n{row_str}"
@@ -108,7 +108,20 @@ class Board:
         Returns:
             a tuple of row, column index identifying the most constrained cell
         """
-        pass
+        mini = self.size
+        row = 0
+        column = 0
+        for i, r in enumerate(self.rows):
+            # print()
+            for j, col in enumerate(r):
+                # print(i, j, col)
+                if isinstance(col, list) and len(col) < mini:
+                    mini = len(col)
+                    row = i
+                    column = j
+                    # print("Changed value")
+                    # print(row, column, mini)
+        return (row, column)
 
     def failure_test(self) -> bool:
         """Check if we've failed to correctly fill out the puzzle. If we find a cell
@@ -144,14 +157,16 @@ class Board:
         self.rows[row][column] = assignment
 
         for i in range(self.size):
-            # remove the assignment from the row
             remove_if_exists(self.rows[row][i], assignment)
-            # remove the assignment from the column
             remove_if_exists(self.rows[i][column], assignment)
+            # 0, 5
+            # 1, 5
+            # 2, 5 ...
 
-        print(self.subgrid_coordinates(row, column))
         for i, j in self.subgrid_coordinates(row, column):
-            remove_if_exists(self.rows[i][j], assignment)
+            remove_if_exists(self.rows[i][j], assignment)       
+
+
 
 def DFS(state: Board) -> Board:
     """Performs a depth first search. Takes a Board and attempts to assign values to
@@ -189,17 +204,16 @@ if __name__ == "__main__":
     # b = Board()
     # print(b)
     # b.print_pretty()
-    # b.update(0, 0, 1)
-    # b.update(0, 2, 2)
-    # b.update(1, 0, 9)
-    # b.update(1, 1, 8)
-    # b.update(0, 4, 3)
-    # b.update(1, 3, 2)
-    # b.update(1,6, 4)
-    # b.update(1, 8, 3)
+    # b.update(3, 5, 4)
+    # b.update(0, 3, 7)
+    # b.update(5, 6, 1)
+    # b.update(3, 4, 3)
+    # b.update(0, 8, 8)
+    # b.update(8, 1, 9)
+    # b.update(6, 4, 3)
     # print(b)
     # b.print_pretty()
-
+    
     # # CODE BELOW HERE RUNS YOUR BFS/DFS
     # print("<<<<<<<<<<<<<< Solving Sudoku >>>>>>>>>>>>>>")
 
@@ -218,7 +232,7 @@ if __name__ == "__main__":
     #     print("<<<<< Solved Board >>>>>")
     #     solution.print_pretty()
 
-    # # sets of moves for the different games
+    # sets of moves for the different games
     first_moves = [
         (0, 1, 7),
         (0, 7, 1),
@@ -314,13 +328,14 @@ if __name__ == "__main__":
     # print("All part 1 tests passed!")
 
     # ##Now, let's write some quick tests to check update!
-    # #Create a sudoku board.
+    #Create a sudoku board.
     g = Board()
     #Place the 28 assignments in first_moves on the board.
     for trip in first_moves:
         g.update(trip[0],trip[1],trip[2])
-    print(g)
     g.print_pretty()
+    print(g)
+    print(g.find_most_constrained_cell())
     # #From the above print statement, you can see which numbers
     # #  have been assigned to the board, and then create test
     # #  cases by looking at the board and listing what values are
