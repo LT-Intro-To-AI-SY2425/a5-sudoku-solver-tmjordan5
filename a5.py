@@ -188,15 +188,15 @@ def DFS(state: Board) -> Board:
     s=Stack([state])
 
     while not s.is_empty():
-        print(s)
+        # print(s)
         b:Board=s.pop()
         if b.goal_test():
             return b
         mcc=b.find_most_constrained_cell()
         row,col=mcc
-        print(row,col)
+        # print(row,col)
         for val in b.rows[row][col]:
-            print(val)
+            # print(val)
             cpy=copy.deepcopy(b)
             cpy.update(row,col,val)
             s.push(cpy)
@@ -216,7 +216,23 @@ def BFS(state: Board) -> Board:
     Returns:
         either None in the case of invalid input or a solved board
     """
-    pass
+    q=Queue([state])
+
+    while not q.is_empty():
+        # print(s)
+        b:Board=q.pop()
+        if b.goal_test():
+            return b
+        mcc=b.find_most_constrained_cell()
+        row,col=mcc
+        # print(row,col)
+        for val in b.rows[row][col]:
+            # print(val)
+            cpy=copy.deepcopy(b)
+            cpy.update(row,col,val)
+            q.push(cpy)
+
+    return None
 
 
 if __name__ == "__main__":
