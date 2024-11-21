@@ -163,12 +163,10 @@ class Board:
         for i in range(self.size):
             remove_if_exists(self.rows[row][i], assignment)
             remove_if_exists(self.rows[i][column], assignment)
-            # 0, 5
-            # 1, 5
-            # 2, 5 ...
 
         for i, j in self.subgrid_coordinates(row, column):
-            remove_if_exists(self.rows[i][j], assignment)       
+            remove_if_exists(self.rows[i][j], assignment)  
+        
         self.num_nums_placed+=1
 
 
@@ -188,15 +186,12 @@ def DFS(state: Board) -> Board:
     s=Stack([state])
 
     while not s.is_empty():
-        # print(s)
         b:Board=s.pop()
         if b.goal_test():
             return b
         mcc=b.find_most_constrained_cell()
         row,col=mcc
-        # print(row,col)
         for val in b.rows[row][col]:
-            # print(val)
             cpy=copy.deepcopy(b)
             cpy.update(row,col,val)
             s.push(cpy)
@@ -219,15 +214,12 @@ def BFS(state: Board) -> Board:
     q=Queue([state])
 
     while not q.is_empty():
-        # print(s)
         b:Board=q.pop()
         if b.goal_test():
             return b
         mcc=b.find_most_constrained_cell()
         row,col=mcc
-        # print(row,col)
         for val in b.rows[row][col]:
-            # print(val)
             cpy=copy.deepcopy(b)
             cpy.update(row,col,val)
             q.push(cpy)
